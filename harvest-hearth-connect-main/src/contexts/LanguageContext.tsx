@@ -36,6 +36,41 @@ const translations: Record<string, Record<string, string>> = {
     'common.delete': 'Delete',
     'common.loading': 'Loading...',
     
+    // Dashboard
+    'dashboard.welcome': 'Welcome back',
+    'dashboard.farmer': 'Farmer',
+    'dashboard.buyer': 'Buyer',
+    'dashboard.auctions': 'Auctions',
+    'dashboard.myBids': 'My Bids',
+    'dashboard.myCrops': 'My Crops',
+    'dashboard.addCrop': 'Add New Crop',
+    'dashboard.mandiPrices': 'Mandi Prices',
+    'dashboard.collectiveSelling': 'Collective Selling',
+    'dashboard.whatsappSMS': 'WhatsApp/SMS',
+    'dashboard.contracts': 'Contracts',
+    
+    // Auction
+    'auction.joinAuction': 'Join Auction',
+    'auction.placeBid': 'Place Bid',
+    'auction.currentBid': 'Current Bid',
+    'auction.basePrice': 'Base Price',
+    'auction.timeLeft': 'Time Left',
+    'auction.totalBids': 'Total Bids',
+    'auction.quantity': 'Quantity',
+    'auction.quality': 'Quality',
+    'auction.farmingMethod': 'Farming Method',
+    'auction.harvestDate': 'Harvest Date',
+    'auction.description': 'Description',
+    
+    // Mandi Prices
+    'mandi.currentPrices': 'Current Mandi Prices',
+    'mandi.mspAlerts': 'MSP Alerts & Recommendations',
+    'mandi.aboveMSP': 'Above MSP',
+    'mandi.belowMSP': 'Below MSP',
+    'mandi.goodToSell': 'Good to Sell',
+    'mandi.wait': 'Wait',
+    
+    
     // Language Selection
     'language.title': 'KrishiSettu',
     'language.subtitle': 'Choose your preferred language',
@@ -66,6 +101,41 @@ const translations: Record<string, Record<string, string>> = {
     'common.edit': 'संपादित करें',
     'common.delete': 'हटाएं',
     'common.loading': 'लोड हो रहा है...',
+    
+    // Dashboard
+    'dashboard.welcome': 'वापस स्वागत है',
+    'dashboard.farmer': 'किसान',
+    'dashboard.buyer': 'खरीदार',
+    'dashboard.auctions': 'नीलामी',
+    'dashboard.myBids': 'मेरी बोलियां',
+    'dashboard.myCrops': 'मेरी फसलें',
+    'dashboard.addCrop': 'नई फसल जोड़ें',
+    'dashboard.mandiPrices': 'मंडी कीमतें',
+    'dashboard.collectiveSelling': 'सामूहिक बिक्री',
+    'dashboard.whatsappSMS': 'व्हाट्सऐप/एसएमएस',
+    'dashboard.contracts': 'अनुबंध',
+    
+    // Auction
+    'auction.joinAuction': 'नीलामी में शामिल हों',
+    'auction.placeBid': 'बोली लगाएं',
+    'auction.currentBid': 'वर्तमान बोली',
+    'auction.basePrice': 'आधार मूल्य',
+    'auction.timeLeft': 'बचा समय',
+    'auction.totalBids': 'कुल बोलियां',
+    'auction.quantity': 'मात्रा',
+    'auction.quality': 'गुणवत्ता',
+    'auction.farmingMethod': 'खेती का तरीका',
+    'auction.harvestDate': 'कटाई की तारीख',
+    'auction.description': 'विवरण',
+    
+    // Mandi Prices
+    'mandi.currentPrices': 'वर्तमान मंडी कीमतें',
+    'mandi.mspAlerts': 'एमएसपी अलर्ट और सुझाव',
+    'mandi.aboveMSP': 'एमएसपी से ऊपर',
+    'mandi.belowMSP': 'एमएसपी से नीचे',
+    'mandi.goodToSell': 'बेचने के लिए अच्छा',
+    'mandi.wait': 'प्रतीक्षा करें',
+    
     
     // Language Selection
     'language.title': 'कृषिसेट्टू',

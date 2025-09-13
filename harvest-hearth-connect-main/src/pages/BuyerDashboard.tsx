@@ -62,7 +62,7 @@ const BuyerDashboard = () => {
       return;
     }
 
-    // EMERGENCY FIX: Always assume this is a buyer if they're on buyer dashboard
+    // CRITICAL FIX: Always assume this is a buyer if they're on buyer dashboard
     const isOnBuyerDashboard = location.pathname === '/buyer-dashboard';
     const forceAsBuyer = localStorage.getItem('FORCE_BUYER_SESSION') === 'true';
     const emergencyCurrentUser = JSON.parse(localStorage.getItem('krishisettu-current-user') || 'null');
@@ -74,37 +74,34 @@ const BuyerDashboard = () => {
       emergencyUserType: emergencyCurrentUser?.userType
     });
     
+    // HIGHEST PRIORITY: If user is on buyer dashboard, treat as buyer
     if (isOnBuyerDashboard || forceAsBuyer || emergencyCurrentUser?.userType === 'buyer') {
-      console.log('🚨 EMERGENCY FIX: User is on buyer dashboard - treating as buyer');
+      console.log('✅ User is on buyer dashboard - treating as buyer');
       setIsRegistered(true);
       setLoading(false);
       return;
     }
     
-    // Check if user just registered as buyer (from navigation state) - HIGHEST PRIORITY
+    // Check if user just registered as buyer (from navigation state)
     if (navigationState?.justRegistered && navigationState?.userType === "buyer") {
-      console.log('✅ User just registered as buyer (from navigation state) - HIGHEST PRIORITY');
+      console.log('✅ User just registered as buyer (from navigation state)');
       setIsRegistered(true);
       setLoading(false);
-      
-      // Store emergency flag to prevent future redirects
       localStorage.setItem('FORCE_BUYER_SESSION', 'true');
-      
-      // Clear the navigation state to avoid confusion on refresh
       navigate(location.pathname, { replace: true, state: null });
       return;
     }
     
-    // Check for userData indicating buyer (SECOND PRIORITY)
+    // Check for userData indicating buyer
     if (userData && (userData.businessName || userData.gstNumber || userData.contactPerson)) {
-      console.log('✅ User data indicates buyer (businessName/gstNumber found)');
+      console.log('✅ User data indicates buyer');
       setIsRegistered(true);
       setLoading(false);
       localStorage.setItem('FORCE_BUYER_SESSION', 'true');
       return;
     }
     
-    // Fix: Check for buyer user type and set registration status (THIRD PRIORITY)
+    // Check for buyer user type
     if (userType === "buyer") {
       console.log('✅ User confirmed as buyer by AuthContext');
       setIsRegistered(true);
@@ -115,15 +112,14 @@ const BuyerDashboard = () => {
     
     // Only redirect to farmer dashboard if we're absolutely sure they're a farmer
     if (userType === "farmer" && userData && userData.fullName && !userData.businessName) {
-      console.log('🔄 User is definitely a farmer (has fullName, no businessName), redirecting to farmer dashboard');
+      console.log('🔄 User is definitely a farmer, redirecting to farmer dashboard');
       navigate("/farmer-dashboard");
       return;
     } 
     
-    // If userType is null/undefined, wait but don't redirect (LOWEST PRIORITY)
+    // If userType is null/undefined, wait but don't redirect
     if (userType === null || userType === undefined) {
       console.log('⚠️ User type is null/undefined, waiting for auth context to update...');
-      // But if they're already on buyer dashboard, assume they're a buyer
       if (location.pathname === '/buyer-dashboard') {
         console.log('🎯 User is on buyer dashboard with null userType - assuming buyer');
         setIsRegistered(true);
@@ -320,7 +316,7 @@ const BuyerDashboard = () => {
               JSON.parse(localStorage.getItem('krishisettu-current-user') || '{}')?.businessName ||
               JSON.parse(localStorage.getItem('krishisettu-current-user') || '{}')?.contactPerson ||
               "Buyer"
-            }!
+            }! Here's your marketplace overview.
           </p>
         </div>
 

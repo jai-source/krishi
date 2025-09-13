@@ -15,17 +15,18 @@ export function AuthProvider({ children }) {
   const [userType, setUserType] = useState(null);
   const [loading, setLoading] = useState(true);  useEffect(() => {
     const unsubscribe = onAuthStateChange(async (user) => {
-      try {        if (user) {
+      try {
+        if (user) {
           setCurrentUser(user);
           
           // Add a small delay to ensure registration data is saved
-          await new Promise(resolve => setTimeout(resolve, 500));
+          await new Promise(resolve => setTimeout(resolve, 300));
           
           // Get user data from Firestore - check both farmer and buyer collections
           let data = null;
           let type = null;
           
-          // First check localStorage for recently registered users
+          // First check localStorage for recently registered users (HIGHEST PRIORITY)
           const currentUserData = JSON.parse(localStorage.getItem('krishisettu-current-user') || 'null');
           if (currentUserData && currentUserData.uid === user.uid) {
             console.log("🔍 AuthContext: Found current user in localStorage", currentUserData);
@@ -68,12 +69,23 @@ export function AuthProvider({ children }) {
             }
           }
           
+          // CRITICAL FIX: Store current user data in localStorage for consistent access
+          if (data && type) {
+            const currentUserData = { ...data, userType: type, email: user.email, uid: user.uid };
+            localStorage.setItem('krishisettu-current-user', JSON.stringify(currentUserData));
+            console.log('✅ Current user stored in localStorage:', currentUserData);
+          }
+          
           setUserData(data);
           setUserType(type);
         } else {
           setCurrentUser(null);
           setUserData(null);
           setUserType(null);
+          // Clear localStorage when user logs out
+          localStorage.removeItem('krishisettu-current-user');
+          localStorage.removeItem('FORCE_BUYER_SESSION');
+          localStorage.removeItem('FORCE_FARMER_SESSION');
         }
       } catch (error) {
         console.error("❌ AuthContext error:", error);
