@@ -133,22 +133,6 @@
       }, 1000);
     </script>
       
-      // Auto-detect if user should be on buyer dashboard
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          const currentPath = window.location.pathname;
-          const forceAsBuyer = localStorage.getItem('FORCE_BUYER_SESSION');
-          
-          if (forceAsBuyer === 'true' && currentPath === '/farmer-dashboard') {
-            console.log('🔄 EMERGENCY: Redirecting from farmer to buyer dashboard');
-            window.location.href = '/buyer-dashboard';
-          }
-        }, 2000);
-      });
-      
-      console.log('🎯 EMERGENCY COMMANDS:');
-      console.log('- window.forceBuyerAccess() - Basic fix');
-      console.log('- window.goBuyerDashboard() - IMMEDIATE buyer dashboard access');
     </script>
     
     <!-- Load urgent test script -->
