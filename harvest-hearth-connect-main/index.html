@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KrishiSettu - Connecting Farmers and Buyers</title>
+    <meta name="description" content="India's premier agricultural marketplace where farmers get fair prices and buyers get fresh produce through transparent auctions." />
+    <meta name="author" content="KrishiSettu Team" />
+    <meta name="keywords" content="agriculture, farming, marketplace, auction, farmers, buyers, crops, produce, India" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="KrishiSettu - Connecting Farmers and Buyers" />
+    <meta property="og:description" content="India's premier agricultural marketplace where farmers get fair prices and buyers get fresh produce through transparent auctions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://krishisettu.com" />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:site_name" content="KrishiSettu" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KrishiSettu - Agricultural Marketplace" />
+    <meta name="twitter:description" content="Connecting farmers with buyers through transparent digital auctions" />
+    <meta name="twitter:image" content="/favicon.svg" />
+
+    <!-- Additional Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#22c55e" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- URGENT HACKATHON FIX -->
+    <script>
+      // Emergency buyer routing fix for hackathon demo
+      console.log('🚨 HACKATHON EMERGENCY FIX LOADED');
+      
+      // Function to force buyer dashboard access
+      window.forceBuyerAccess = function() {
+        localStorage.setItem('FORCE_BUYER_SESSION', 'true');
+        if (window.location.pathname === '/farmer-dashboard') {
+          window.location.href = '/buyer-dashboard';
+        }
+      };
+      
+      // URGENT: Enhanced function for immediate buyer dashboard access
+      window.goBuyerDashboard = function() {
+        console.log('🚀 FORCING BUYER DASHBOARD ACCESS NOW');
+        localStorage.setItem('FORCE_BUYER_SESSION', 'true');
+        localStorage.removeItem('FORCE_FARMER_SESSION');
+        localStorage.setItem('krishisettu-current-user', JSON.stringify({
+          userType: 'buyer',
+          businessName: 'Emergency Buyer',
+          contactPerson: 'Demo User',
+          email: 'emergency@buyer.com'
+        }));
+        window.location.href = '/buyer-dashboard';
+      };
+
+      // Function for farmer dashboard access
+      window.goFarmerDashboard = function() {
+        console.log('🚀 FORCING FARMER DASHBOARD ACCESS NOW');
+        localStorage.setItem('FORCE_FARMER_SESSION', 'true');
+        localStorage.removeItem('FORCE_BUYER_SESSION');
+        localStorage.setItem('krishisettu-current-user', JSON.stringify({
+          userType: 'farmer',
+          fullName: 'Demo Farmer',
+          email: 'emergency@farmer.com'
+        }));
+        window.location.href = '/farmer-dashboard';
+      };
+
+      // Auto-fill registration form helper
+      window.fillBuyerForm = function() {
+        console.log('📝 Auto-filling buyer registration form...');
+        setTimeout(() => {
+          const inputs = document.querySelectorAll('input');
+          inputs.forEach(input => {
+            if (input.name === 'businessName' || input.placeholder?.toLowerCase().includes('business')) {
+              input.value = 'Hackathon Demo Business';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'contactPerson' || input.placeholder?.toLowerCase().includes('contact')) {
+              input.value = 'Demo Buyer';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'email' || input.type === 'email') {
+              input.value = `demo-${Date.now()}@buyer.com`;
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'password' || input.type === 'password') {
+              input.value = 'password123';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'businessType' || input.placeholder?.toLowerCase().includes('type')) {
+              input.value = 'Wholesaler';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'businessLocation' || input.placeholder?.toLowerCase().includes('location')) {
+              input.value = 'Demo City';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'phoneNumber' || input.placeholder?.toLowerCase().includes('phone')) {
+              input.value = '9876543210';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            } else if (input.name === 'gstNumber' || input.placeholder?.toLowerCase().includes('gst')) {
+              input.value = 'GST123456789';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+          });
+          console.log('✅ Demo form auto-filled! Submit the form now.');
+        }, 500);
+      };
+
+      // Display available emergency commands
+      setTimeout(() => {
+        console.log('');
+        console.log('🎯 HACKATHON EMERGENCY COMMANDS READY:');
+        console.log('- window.goBuyerDashboard() - Force buyer dashboard');
+        console.log('- window.goFarmerDashboard() - Force farmer dashboard'); 
+        console.log('- window.fillBuyerForm() - Auto-fill registration');
+        console.log('');
+        console.log('🚀 Your platform is ready for demo! Good luck! 🏆');
+      }, 2000);
+      
+      // Monitor for wrong routing and auto-fix
+      setTimeout(() => {
+        if (localStorage.getItem('FORCE_BUYER_SESSION') === 'true' && 
+            window.location.pathname === '/farmer-dashboard') {
+          console.log('🔄 Auto-correcting wrong routing...');
+          window.location.href = '/buyer-dashboard';
+        }
+      }, 1000);
+    </script>
+      
+      // Auto-detect if user should be on buyer dashboard
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const currentPath = window.location.pathname;
+          const forceAsBuyer = localStorage.getItem('FORCE_BUYER_SESSION');
+          
+          if (forceAsBuyer === 'true' && currentPath === '/farmer-dashboard') {
+            console.log('🔄 EMERGENCY: Redirecting from farmer to buyer dashboard');
+            window.location.href = '/buyer-dashboard';
+          }
+        }, 2000);
+      });
+      
+      console.log('🎯 EMERGENCY COMMANDS:');
+      console.log('- window.forceBuyerAccess() - Basic fix');
+      console.log('- window.goBuyerDashboard() - IMMEDIATE buyer dashboard access');
+    </script>
+    
+    <!-- Load urgent test script -->
+    <script type="module" src="/URGENT_BUYER_LOGIN_FIX.js"></script>
+  </body>
+</html>
