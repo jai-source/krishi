@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Wheat, DollarSign, Clock, CheckCircle, TrendingUp, BarChart3 } from "lucide-react";
+import { Plus, Wheat, DollarSign, Clock, CheckCircle, TrendingUp, BarChart3, AlertTriangle } from "lucide-react";
 import Header from "@/components/Header";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -29,6 +29,21 @@ const NewFarmerDashboard = () => {
     email: "",
     password: ""
   });
+
+  // Mandi prices and MSP data
+  const [mandiPrices, setMandiPrices] = useState([
+    { crop: "Wheat", mandiPrice: 25.50, msp: 22.75, district: "Punjab" },
+    { crop: "Rice", mandiPrice: 35.20, msp: 32.00, district: "Haryana" },
+    { crop: "Tomato", mandiPrice: 18.75, msp: 15.00, district: "Maharashtra" },
+    { crop: "Onion", mandiPrice: 22.30, msp: 20.00, district: "Gujarat" },
+    { crop: "Potato", mandiPrice: 12.80, msp: 10.00, district: "Uttar Pradesh" }
+  ]);
+
+  const [mspAlerts, setMspAlerts] = useState([
+    { crop: "Wheat", message: "Current price ₹25.50 is above MSP ₹22.75 - Good time to sell!", type: "success" },
+    { crop: "Rice", message: "Current price ₹35.20 is above MSP ₹32.00 - Consider selling!", type: "success" },
+    { crop: "Tomato", message: "Price below MSP - Consider waiting or collective selling", type: "warning" }
+  ]);
 
   useEffect(() => {
     if (currentUser && userType === "farmer") {
@@ -339,9 +354,10 @@ const NewFarmerDashboard = () => {
         </div>
 
         <Tabs defaultValue="crops" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="crops">My Crops</TabsTrigger>
             <TabsTrigger value="add-crop">Add New Crop</TabsTrigger>
+            <TabsTrigger value="mandi-prices">Mandi Prices</TabsTrigger>
           </TabsList>
 
           <TabsContent value="crops" className="space-y-6">
@@ -422,7 +438,8 @@ const NewFarmerDashboard = () => {
                       <Input id="basePrice" name="basePrice" type="number" placeholder="e.g., 25" required />
                     </div>
                     <div>
-                      <Label htmlFor="auctionDuration">Auction Duration</Label>                      <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" name="auctionDuration" required>
+                      <Label htmlFor="auctionDuration">Auction Duration</Label>
+                      <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" name="auctionDuration" required>
                         <option value="1">1 day</option>
                         <option value="3">3 days</option>
                         <option value="7">7 days</option>
@@ -438,6 +455,76 @@ const NewFarmerDashboard = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="mandi-prices" className="space-y-6">
+            {/* MSP Alerts */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center">
+                <AlertTriangle className="h-5 w-5 mr-2 text-accent" />
+                MSP Alerts & Recommendations
+              </h3>
+              <div className="grid gap-4">
+                {mspAlerts.map((alert, index) => (
+                  <Card key={index} className={`border-l-4 ${
+                    alert.type === 'success' ? 'border-l-green-500' : 'border-l-yellow-500'
+                  }`}>
+                    <CardContent className="pt-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-medium">{alert.crop}</h4>
+                          <p className="text-sm text-muted-foreground">{alert.message}</p>
+                        </div>
+                        <Badge variant={alert.type === 'success' ? 'default' : 'secondary'}>
+                          {alert.type === 'success' ? 'Good to Sell' : 'Wait'}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Mandi Prices Table */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center">
+                <TrendingUp className="h-5 w-5 mr-2 text-primary" />
+                Current Mandi Prices
+              </h3>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2">Crop</th>
+                          <th className="text-left py-2">District</th>
+                          <th className="text-left py-2">Mandi Price</th>
+                          <th className="text-left py-2">MSP</th>
+                          <th className="text-left py-2">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {mandiPrices.map((price, index) => (
+                          <tr key={index} className="border-b">
+                            <td className="py-3 font-medium">{price.crop}</td>
+                            <td className="py-3 text-muted-foreground">{price.district}</td>
+                            <td className="py-3 font-semibold">₹{price.mandiPrice}/kg</td>
+                            <td className="py-3 text-muted-foreground">₹{price.msp}/kg</td>
+                            <td className="py-3">
+                              <Badge variant={price.mandiPrice > price.msp ? 'default' : 'secondary'}>
+                                {price.mandiPrice > price.msp ? 'Above MSP' : 'Below MSP'}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
         </Tabs>
       </div>
     </div>
